@@ -81,6 +81,48 @@
 ```
 ## [성구](./스위치%20켜고%20끄기/성구.py)
 ```py
+# 1244 스위치 켜고 끄기
+'''
+1 <= switch, 학생수 <= 100 정수
+1: on, 0: off
+남: 1, 여: 2
+'''
+import sys
+input = sys.stdin.readline
+
+# input
+switch_N = int(input())
+switch = list(map(int, input().split()))
+student_N = int(input())
+
+for student in [list(map(int, input().split())) for _ in range(student_N)]:
+    # 남자
+    if student[0] == 1:
+        for number in range(student[1]-1, switch_N, student[1]):
+            switch[number] = 0 if switch[number] else 1
+
+    # 여자
+    if student[0] == 2:
+        left = right = student[1]-1
+        switch[left] = 0 if switch[left] else 1
+        while left>=0 and right < switch_N:
+            if switch[right] != switch[left]:
+                break
+            switch[left] = 0 if switch[left] else 1
+            switch[right] = 0 if switch[right] else 1
+            left -= 1
+            right += 1
+
+
+# Output form
+
+ans = "" 
+for i in range(switch_N):
+    ans += str(switch[i]) + " "
+    if not((i+1) % 20):
+        ans += "\n"
+print(ans)
+
 ```
 ## [혜진](./스위치%20켜고%20끄기/혜진.py)
 ```py
@@ -109,6 +151,44 @@
 ```
 ## [성구](./한%20줄로%20서기/성구.py)
 ```py
+# 1138 한 줄로 서기
+'''
+1<= N <=10 자연수
+(리스트 내부 수) <= N
+'''
+
+import sys
+input = sys.stdin.readline
+
+# Input
+N = int(input())
+arr = list(map(int,input().split()))
+
+# Define
+# 정답 만들기 용 리스트
+line = [0] * N
+
+# Setting Line Function
+def Insert_Number(start:int, end:int, num:int):
+    for i in range(start,end):
+        if not line[i]:
+            line[i] = num
+            return 
+
+# Main
+def Main():               
+    for i in range(N):
+        cnt = 0
+        for j in range(N):
+            if cnt == arr[i]:   # 나보다 키가 큰 사람이 입력 받은 만큼 있으면
+                Insert_Number(j, N, i+1) # 빈 곳에 서기
+                break                       #  다음 사람의 순서로 가기위해 break
+            elif not line[j] or line[j] >= (i+1):   # 아직 나보다 큰 사람들이 입력받은 만큼 없는 경우,
+                cnt += 1                    # 키가 큰 사람이 있거나, 큰 사람이 설 가능성이 있는 경우 카운트
+    print(*line)
+
+
+Main()      
 ```
 ## [혜진](./두%20큐%20합%20같게%20만들기/혜진.py)
 ```py
