@@ -24,6 +24,17 @@
 ```
 ## [서희](./조건에%20맞는%20사용자%20정보%20조회하기/서희.sql)
 ```sql
+SELECT USER_ID, NICKNAME, CONCAT(CITY,' ',STREET_ADDRESS1,' ',STREET_ADDRESS2) AS '전체주소',
+    CONCAT(SUBSTR(TLNO,1,3),'-',SUBSTR(TLNO,4,4),'-',SUBSTR(TLNO,8,4)) AS '전화번호'
+FROM USED_GOODS_USER
+WHERE USER_ID IN (
+    SELECT WRITER_ID
+    FROM USED_GOODS_BOARD
+    GROUP BY WRITER_ID
+    HAVING count(*) >= 3
+)
+
+ORDER BY USER_ID DESC
 ```
 ## [성구](./조건에%20맞는%20사용자%20정보%20조회하기/성구.sql)
 ```sql
@@ -109,6 +120,40 @@ def solution(queue1, queue2):
 ```
 ## [서희](./두%20큐%20합%20같게%20만들기/서희.py)
 ```py
+from collections import deque
+
+
+def solution(queue1, queue2):
+    answer = 0
+    q1 = deque(queue1)
+    q2 = deque(queue2)
+    max_cnt = (len(queue1)) * 3
+    s1 = sum(queue1)
+    s2 = sum(queue2)
+    S = s1 + s2
+
+    if S % 2 != 0:
+        return -1
+
+    while True:
+        if s1 > s2:
+            target = q1.popleft()
+            q2.append(target)
+            s1 -= target
+            s2 += target
+            answer += 1
+        elif s1 < s2:
+            target = q2.popleft()
+            q1.append(target)
+            s1 += target
+            s2 -= target
+            answer += 1
+        else:
+            break
+        if answer == max_cnt:
+            answer = -1
+            break
+    return answer
 ```
 ## [성구](./두%20큐%20합%20같게%20만들기/성구.py)
 ```py
@@ -228,6 +273,41 @@ for i in range(1, N+1):
 ```
 ## [서희](./스위치%20켜고%20끄기/서희.py)
 ```py
+N = int(input())
+switch = list(map(int, input().split()))
+S = int(input())
+students = []
+for _ in range(S):
+    students.append(list(map(int, input().split())))
+
+
+
+for student in students:
+    if student[0] == 1:
+        rule1 = N//int(student[1]) + 1
+        for i in range(1, rule1):
+            if switch[int(student[1])*i -1] == 1:
+                switch[int(student[1])*i -1] = 0
+            else:
+                switch[int(student[1])*i-1] = 1
+    else:
+        for i in range(N):
+            if int(student[1])-i >= 1 and int(student[1])+i <= N:
+                if switch[int(student[1])-i-1] == switch[int(student[1])+i-1]:
+                    if switch[int(student[1])-i-1] == 1:
+                        switch[int(student[1])-i-1] = 0
+                        switch[int(student[1])+i-1] = 0
+                    else:
+                        switch[int(student[1])-i-1] = 1
+                        switch[int(student[1])+i-1] = 1
+                else:
+                    break
+
+D = N//20 + 1
+for d in range(D):
+    s = switch[0+20*d:20+20*d]
+    print(*s)
+
 ```
 ## [성구](./스위치%20켜고%20끄기/성구.py)
 ```py
@@ -336,6 +416,23 @@ print(*line)
 ```
 ## [서희](./한%20줄로%20서기/서희.py)
 ```py
+N = int(input())
+people = list(map(int, input().split()))
+
+line = [0] * N
+for i in range(N):
+    empty_cnt = 0
+    j = 0
+    while True:
+        if empty_cnt == people[i] and line[j] == 0:
+            line[j] = i + 1
+            break
+        if line[j] == 0:
+            empty_cnt += 1
+        j += 1
+
+print(*line)
+
 ```
 ## [성구](./한%20줄로%20서기/성구.py)
 ```py
