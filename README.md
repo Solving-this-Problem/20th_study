@@ -82,6 +82,51 @@ ORDER BY USER_ID DESC;
 
 ## [동우](./스위치%20켜고%20끄기/동우.py)
 ```py
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+switch = [0] + list(map(int, input().strip().split()))
+students = int(input())
+
+for _ in range(students):
+    s, num = map(int, input().strip().split())
+
+    if s == 1:
+        for i in range(1, N + 1):
+            if not i % num:
+                if switch[i]:
+                    switch[i] = 0
+                else:
+                    switch[i] = 1
+    else:
+        if switch[num]:
+            switch[num] = 0
+        elif switch[num] == 0:
+            switch[num] = 1
+
+        j = 1
+        while True:
+
+            if num - j < 1:
+                break
+            elif num + j > N:
+                break
+
+            elif switch[num - j] == switch[num + j]:
+                if switch[num - j]:
+                    switch[num - j], switch[num + j] = 0, 0
+                    j += 1
+                else:
+                    switch[num - j], switch[num + j] = 1, 1
+                    j += 1
+            else:
+                break
+
+for i in range(1, N + 1):
+    print(switch[i], end=' ')
+    if i % 20 == 0:
+        print()
 ```
 ## [민웅](./스위치%20켜고%20끄기/민웅.py)
 ```py
