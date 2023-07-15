@@ -58,6 +58,54 @@ ORDER BY USER_ID DESC;
 ```
 ## [민웅](./두%20큐%20합%20같게%20만들기/민웅.py)
 ```py
+# 테케 2개 틀린상태
+from collections import deque
+
+
+def solution(queue1, queue2):
+    answer = -2
+    check = 0
+    q1 = deque(queue1)
+    q2 = deque(queue2)
+
+    s1 = sum(q1)
+    s2 = sum(q2)
+    max_sum = s1 + s2
+    target_num = max_sum//2
+
+    if max_sum%2 != 0:
+        return -1
+
+    if max(q1) > target_num or max(q2) > target_num:
+        return -1
+
+    at_least = False
+
+    while True:
+        if s1 == target_num and at_least:
+            break
+
+        if check >= 2*(len(q2)+len(q1)):
+            return -1
+
+        if s1 > target_num:
+            temp = q1.popleft()
+            q2.append(temp)
+            check += 1
+            s1 -= temp
+            s2 += temp
+
+        else:
+            temp = q2.popleft()
+            q1.append(temp)
+            check += 1
+            s1 += temp
+            s2 -= temp
+        at_least = True
+
+    answer = check
+
+    return answer
 ```
 ## [서희](./두%20큐%20합%20같게%20만들기/서희.py)
 ```py
@@ -130,6 +178,53 @@ for i in range(1, N + 1):
 ```
 ## [민웅](./스위치%20켜고%20끄기/민웅.py)
 ```py
+# 1244_스위치켜고끄기_OnOff
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+
+switchs = list(map(int, input().split()))
+
+n = int(input())
+
+for _ in range(n):
+    gender, number = map(int, input().split())
+
+    if gender == 1:
+        n = number
+        while number-1 < N:
+            if switchs[number-1]:
+                switchs[number-1] = 0
+            else:
+                switchs[number-1] = 1
+            number += n
+    else:
+        i, j = number-2, number
+        if switchs[number-1]:
+            switchs[number-1] = 0
+        else:
+            switchs[number-1] = 1
+
+        while i >= 0 and j < N:
+            if switchs[i] == switchs[j]:
+                if switchs[i]:
+                    switchs[i] = 0
+                    switchs[j] = 0
+                else:
+                    switchs[i] = 1
+                    switchs[j] = 1
+            else:
+                break
+            i -= 1
+            j += 1
+
+for i in range(1, N+1):
+    if i % 20:
+        print(switchs[i-1], end=' ')
+    else:
+        print(switchs[i-1])
+
 ```
 ## [서희](./스위치%20켜고%20끄기/서희.py)
 ```py
