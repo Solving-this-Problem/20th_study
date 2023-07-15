@@ -220,6 +220,24 @@ print(*tmp)
 ```
 ## [민웅](./한%20줄로%20서기/민웅.py)
 ```py
+# 1138_한 줄로 서기
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+
+n_li = list(map(int, input().split()))
+line = [-1]*N
+for i in range(1, N+1):
+    n = n_li[i-1]
+    for j in range(N):
+        if not n and line[j] == -1:
+            line[j] = i
+            break
+        elif line[j] == -1:
+            n -= 1
+
+print(*line)
 ```
 ## [서희](./한%20줄로%20서기/서희.py)
 ```py
@@ -286,6 +304,46 @@ Main()
 ```
 ## [민웅](./여행가자/민웅.py)
 ```py
+# 1976_여행가자_Lets trip
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+M = int(input())
+
+adjL = [[] for _ in range(N+1)]
+
+visited = [0]*(N+1)
+check = 0
+
+for i in range(1, N+1):
+    roads = list(map(int, input().split()))
+
+    for j in range(1, N+1):
+        if roads[j-1]:
+            adjL[i].append(j)
+
+plan = list(map(int, input().split()))
+
+stack = [plan[0]]
+
+while stack:
+    city = stack.pop()
+    visited[city] = 1
+
+    for node in adjL[city]:
+        if not visited[node]:
+            stack.append(node)
+
+ans = 'YES'
+for v in plan:
+    if not visited[v]:
+        ans = 'NO'
+        break
+
+
+print(ans)
+
 ```
 ## [서희](./여행가자/서희.py)
 ```py
