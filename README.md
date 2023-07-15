@@ -197,6 +197,26 @@ print(ans)
 
 ## [동우](./한%20줄로%20서기/동우.py)
 ```py
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+arr = list(map(int, input().strip().split()))
+
+tmp = [0] * N
+
+for i in range(N):
+    cnt = 0
+    for j in range(N):
+        if cnt == arr[i]:
+            if tmp[j] == 0:
+                tmp[j] = i + 1
+                break
+        elif tmp[j] == 0:
+            cnt += 1
+
+print(*tmp)
+
 ```
 ## [민웅](./한%20줄로%20서기/민웅.py)
 ```py
